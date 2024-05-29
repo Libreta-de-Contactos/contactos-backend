@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import { User } from '../models/user.model';
+import { jwtConfig } from '../config/jwtConfig';
 
 // Verificar credenciales de usuario
 export const verifyUser = async (req: Request, res: Response): Promise<void> => {
@@ -17,7 +19,13 @@ export const verifyUser = async (req: Request, res: Response): Promise<void> => 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {
-      res.status(200).send('Autenticación exitosa');
+      // Crear el payload del JWT
+      const payload = { userId: user.id, username: user.username };
+      
+      // Firmar el token
+      const token = jwt.sign(payload, jwtConfig.secretKey, { expiresIn: '10m' });
+
+      res.status(200).json({ message: 'Autenticación exitosa', token });
     } else {
       res.status(401).send('Contraseña incorrecta');
     }

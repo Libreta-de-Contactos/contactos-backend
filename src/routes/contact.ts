@@ -1,11 +1,12 @@
 import { Router } from "express";
-import contactController from '../controllers/contactController';
+import { getContactById, createContact, updateContact, deleteContact } from '../controllers/contactController';
+import verifyToken from '../middlewares/verifyToken';
 
 const router = Router();
 
-router.post('/create', contactController.createContact);
-router.get('/getById/:id', contactController.getContactById);
-router.put('/update/:id', contactController.updateContact);
-router.delete('/delete/:id', contactController.deleteContact);
+router.post('/create', verifyToken, createContact);
+router.get('/getById/:id', verifyToken, getContactById);
+router.put('/update/:id', verifyToken, updateContact);
+router.delete('/delete/:id', verifyToken, deleteContact);
 
 export {router};
