@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 import { User } from './user.model';
 
 interface ContactAttributes {
@@ -13,7 +13,9 @@ interface ContactAttributes {
   photo?: string;
 }
 
-class Contact extends Model<ContactAttributes> implements ContactAttributes {
+interface ContactCreationAttributes extends Optional<ContactAttributes, 'id'> {}
+
+class Contact extends Model<ContactAttributes, ContactCreationAttributes> implements ContactAttributes {
   public id!: number;
   public userId!: number;
   public firstName!: string;

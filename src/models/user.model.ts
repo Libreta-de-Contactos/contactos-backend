@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 
 interface UserAttributes {
   id: number;
@@ -6,7 +6,9 @@ interface UserAttributes {
   password: string;
 }
 
-class User extends Model<UserAttributes> implements UserAttributes {
+interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+
+class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes{
   public id!: number;
   public username!: string;
   public password!: string;
@@ -23,6 +25,7 @@ class User extends Model<UserAttributes> implements UserAttributes {
           type: DataTypes.INTEGER.UNSIGNED,
           autoIncrement: true,
           primaryKey: true,
+          allowNull: false,
         },
         username: {
           type: DataTypes.STRING,

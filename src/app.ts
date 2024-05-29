@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3001;
 
 const app = Express();
 app.use(Cors());
+app.use(Express.json());
 app.use(router);
 
 

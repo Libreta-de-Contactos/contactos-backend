@@ -1,12 +1,11 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
+import contactController from '../controllers/contactController';
 
 const router = Router();
 
-/**
- * http://localhost:3002/contacts [GET]
- */
-router.get('/', (req: Request, res: Response) => {
-    res.send({data: 'Contacts models'});
-});
+router.post('/create', contactController.createContact);
+router.get('/getById/:id', contactController.getContactById);
+router.put('/update/:id', contactController.updateContact);
+router.delete('/delete/:id', contactController.deleteContact);
 
 export {router};
