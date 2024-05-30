@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import verifyToken from '../middlewares/verifyToken';
 import { Request, Response } from 'express';
 import { User } from '../models/user.model';
 import { jwtConfig } from '../config/jwtConfig';
@@ -23,9 +24,9 @@ export const verifyUser = async (req: Request, res: Response): Promise<void> => 
       const payload = { userId: user.id, username: user.username };
       
       // Firmar el token
-      const token = jwt.sign(payload, jwtConfig.secretKey, { expiresIn: '10m' });
+      const token = jwt.sign(payload, jwtConfig.secretKey, { expiresIn: '1h' });
 
-      res.status(200).json({ message: 'Autenticación exitosa', token });
+      res.status(200).json({ token, id: user.id});
     } else {
       res.status(401).send('Contraseña incorrecta');
     }
@@ -40,9 +41,7 @@ export const verifyUser = async (req: Request, res: Response): Promise<void> => 
 // Crear un usuario
 export const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    console.log(req.body)
     const {id, username, password } = req.body;
-    console.log(id, username, password)
 
     // Cifrar la contraseña antes de almacenarla
     const saltRounds = 10;

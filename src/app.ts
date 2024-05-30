@@ -6,7 +6,7 @@ import { sequelize } from './models/index';
 
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 const app = Express();
 app.use(Cors());

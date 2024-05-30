@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/app.ts"
+    "dev": "nodemon ./src/app.ts",
+    "create_database": "ts-node ./src/config/createDb.ts",
+    "migrate": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "setup": "npm run create_database && npm run migrate"
   },
   "keywords": [],
   "author": "",

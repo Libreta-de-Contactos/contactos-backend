@@ -1,9 +1,11 @@
 import { Router } from "express";
-import userController from '../controllers/userController';
+import verifyToken from '../middlewares/verifyToken';
+import {verifyUser, createUser} from '../controllers/userController';
 
 const router = Router();
 
-router.post('/login', userController.verifyUser);
-router.post('/create', userController.createUser);
+router.get('/auth', verifyToken,(req, res) => res.json({ message: 'Active session' }) );
+router.post('/login', verifyUser);
+router.post('/create', createUser);
 
 export {router};
